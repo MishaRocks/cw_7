@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest-framework-simplejwt',
+    'drf_yasg',
+    'django_celery_beat',
 
     'users',
     'habits',
@@ -96,8 +99,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cw_7',
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASS'),
+        'HOST': 'db'
     }
 }
 
@@ -171,7 +177,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CELERY_BEAT_SCHEDULE = {
     'tg_notification': {
-        'task': 'habits.tasks.send_notification',
+        'task': 'habits.tasks.py.send_notification',
         'schedule': timedelta(seconds=15),
     },
 }
